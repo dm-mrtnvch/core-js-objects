@@ -149,8 +149,31 @@ function makeWord(lettersObject) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  const price = 25;
+  const register = [];
+
+  for (let i = 0; i < queue.length; i += 1) {
+    const customerBill = queue[i];
+    let change = customerBill - price;
+
+    register.sort((a, b) => b - a);
+
+    let index = 0;
+    while (change > 0 && index < register.length) {
+      if (register[index] > change) {
+        index += 1;
+      } else {
+        change -= register[index];
+        register.splice(index, 1);
+      }
+    }
+
+    if (change !== 0) return false;
+    register.push(customerBill);
+  }
+
+  return true;
 }
 
 /**
@@ -166,9 +189,13 @@ function sellTickets(/* queue */) {
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  this.width = width;
+  this.height = height;
 }
+Rectangle.prototype.getArea = function fn() {
+  return this.width * this.height;
+};
 
 /**
  * Returns the JSON representation of specified object
